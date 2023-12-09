@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -50,4 +51,25 @@ Route::get('orderby', function () {
     $users = User::orderBy('name', 'DESC')->get();
 
     return $users;
+});
+
+Route::get('softDelete', function () {
+
+    $post = Post::find(request()->get('id'));
+
+    $post->delete();
+
+    return Post::paginate();
+});
+
+Route::get('accessor', function () {
+    $post = Post::paginate();
+
+    return $post;
+});
+
+Route::get('accessor-titleBody', function () {
+    $post = Post::find(7);
+
+    return $post->title_and_body;
 });
