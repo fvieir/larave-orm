@@ -2,6 +2,7 @@
 
 use App\Models\Post;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -72,4 +73,36 @@ Route::get('accessor-titleBody', function () {
     $post = Post::find(7);
 
     return $post->title_and_body;
+});
+
+Route::get('casting', function () {
+    $post = Post::all();
+
+    return $post;
+});
+
+
+Route::get('insert', function () {
+    $post = Post::create([
+        'title' => 'Exemplo titulo',
+        'body' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim eveniet libero deleniti praesentium totam quasi quaerat explicabo aspernatur, nulla maxime suscipit! Sunt nemo quae sed perspiciatis, placeat ad. Magni, voluptatem?',
+        'user_id' => 99,
+        'data' => Carbon::now(),
+    ]);
+
+    return $post;
+});
+
+Route::get('scope_local', function () {
+    $post = Post::lastWeek()->get();
+
+    return $post;
+});
+
+Route::get('scope_local_between', function () {
+    $post = Post::between('10-10-2023', '12-12-2023')
+        ->orderBy('created_at', 'ASC')
+        ->get();
+
+    return $post;
 });

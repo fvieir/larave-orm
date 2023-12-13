@@ -2,6 +2,8 @@
 
 namespace App\Models\Accessors;
 
+use Carbon\Carbon;
+
 trait DefaultAccessors
 {
     public function getTitleAttribute($value)
@@ -12,5 +14,10 @@ trait DefaultAccessors
     public function getTitleAndBodyAttribute()
     {
         return $this->title . ' - ' . $this->body;
+    }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::make($value)->format('d-m-Y');
     }
 }
