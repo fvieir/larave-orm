@@ -24,6 +24,14 @@ class Post extends Model
         'date' => 'datetime'
     ];
 
+    protected static function booted(): void
+    {
+        static::addGlobalScope('currentYear', function (Builder $builder) {
+            $currentYear = Carbon::now()->year;
+            $builder->where('created_at', '>=', $currentYear);
+        });
+    }
+
     public function scopeToday(Builder $query): void
     {
         $today = Carbon::now()->format('Y-m-d');

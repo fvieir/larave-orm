@@ -106,3 +106,15 @@ Route::get('scope_local_between', function () {
 
     return $post;
 });
+
+Route::get('scope_global', function () {
+    $post = Post::all();
+
+    return $post;
+});
+
+Route::get('without_scope_global', function () {
+    $post = Post::withoutGlobalScope('currentYear')->get();
+
+    return $post;
+});
