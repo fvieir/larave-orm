@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Accessors\DefaultAccessors;
+use App\Models\Scope\CurrentYearScope;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,7 +15,6 @@ class Post extends Model
     use HasFactory, SoftDeletes, DefaultAccessors;
 
     protected $fillable = [
-        'user_id',
         'title',
         'body',
         'data',
@@ -26,10 +26,14 @@ class Post extends Model
 
     protected static function booted(): void
     {
-        static::addGlobalScope('currentYear', function (Builder $builder) {
-            $currentYear = Carbon::now()->year;
-            $builder->where('created_at', '>=', $currentYear);
-        });
+        // Utilizando Scope Global sem implementação da intefarce global
+
+        // static::addGlobalScope('currentYear', function (Builder $builder) {
+        //     $currentYear = Carbon::now()->year;
+        //     $builder->where('created_at', '>=', $currentYear);
+        // });
+
+        static::addGlobalScope(new CurrentYearScope);
     }
 
     public function scopeToday(Builder $query): void

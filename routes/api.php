@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Post;
+use App\Models\Scope\CurrentYearScope;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -114,7 +115,20 @@ Route::get('scope_global', function () {
 });
 
 Route::get('without_scope_global', function () {
-    $post = Post::withoutGlobalScope('currentYear')->get();
+    // Utilizando Scope Global sem implementação da intefarce global
+    // $post = Post::withoutGlobalScope('currentYear')->get();
+    $post = Post::withoutGlobalScope(CurrentYearScope::class)->get();
+
+    return $post;
+});
+
+Route::get('observer', function () {
+    $post = Post::create([
+        'user_id' => 4,
+        'title' => 'Teste Observer',
+        'body' => 'Teste Observer',
+        'data' => now(),
+    ]);
 
     return $post;
 });
